@@ -10,7 +10,7 @@ export class MemberRepository implements IRepository<IMemberBase, IMember> {
   constructor(private readonly db: MySql2Database<Record<string, never>>) {}
 
   async create(data: IMemberBase): Promise<IMember> {
-    const validatedData = MemberBaseSchema.parse(data);
+    const validatedData = { ...MemberBaseSchema.parse(data), id: 0 };
 
     try {
       const [insertId] = await this.db
@@ -127,6 +127,37 @@ export class MemberRepository implements IRepository<IMemberBase, IMember> {
       }
     } catch (e) {
       throw new Error((e as Error).message);
+    }
+  }
+
+  async getByEmail(email: string) {
+    try {
+      const [selectedMember] = await this.db
+        .select()
+        .from(members)
+        .where(eq(members.email, email));
+      if (!selectedMember) throw new Error("Member not found");
+      return selectedMember;
+    } catch (err) {
+      if (err instanceof Error) throw new Error(err.message);
+    }
+  }
+
+  async updateTokens(
+    MemberId: number,
+    accessToken: string,
+    refreshToken: string
+  ) {
+    try {
+      const [result] = await this.db
+        .update(members)
+        .set({ accessToken, refreshToken })
+        .where(eq(members.id, MemberId));
+      if (result.affectedRows > 0) {
+        return;
+      } else throw new Error("There was a problem while updating the member");
+    } catch (err) {
+      if (err instanceof Error) throw new Error(err.message);
     }
   }
 }

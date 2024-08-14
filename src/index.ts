@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import { MemberRepository } from "./repositories/member.repository";
 import { bookRoutes } from "./bookRoutes";
 import { memberRoutes } from "./memberRoutes";
+import { verifyJWT } from "./middlewares/authMiddlewa";
 
 const app = express();
 const port = 3000;
@@ -41,8 +42,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use("/member", memberRoutes);
-app.use("/books", bookRoutes);
+app.post("/register", verifyJWT, () => {});
+app.post("/login", verifyJWT, () => {});
+
+app.use("/member", verifyJWT, memberRoutes);
+app.use("/books", verifyJWT, bookRoutes);
 
 // Start the server
 app.listen(port, () => {

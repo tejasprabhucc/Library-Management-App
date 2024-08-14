@@ -13,14 +13,9 @@ export const verifyJWT = async (
   next: NextFunction
 ) => {
   try {
-    const authHeader = req.headers["authorization"];
-    console.log(authHeader);
-    if (!authHeader) return res.sendStatus(401);
-    console.log(authHeader); // Bearer token
-    const token = authHeader.split(" ")[1];
-    if (!token) {
-      throw new Error();
-    }
+    const token = req.headers["authorization"]?.split(" ")[1];
+
+    if (!token) return res.sendStatus(401);
 
     const decoded = jwt.verify(token, AppEnvs.ACCESS_TOKEN_SECRET);
     (req as CustomRequest).token = decoded;
