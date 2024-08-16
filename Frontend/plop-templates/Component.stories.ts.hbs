@@ -1,0 +1,23 @@
+import { StoryObj, Meta } from '@storybook/react';
+import {{pascalCase name}}, { {{pascalCase name}}Props } from './{{pascalCase name}}';
+
+const meta: Meta<{{pascalCase name}}Props> = {
+  title: 'Components/{{pascalCase name}}',
+  component: {{pascalCase name}},
+   parameters: {
+    layout: "centered",
+  },
+   tags: ["autodocs"],
+   argTypes: {
+    /* Arg types here */
+  },
+}
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    /* Args here */
+  },
+};
