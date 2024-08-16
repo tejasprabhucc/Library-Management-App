@@ -143,15 +143,11 @@ export class MemberRepository implements IRepository<IMemberBase, IMember> {
     }
   }
 
-  async updateTokens(
-    MemberId: number,
-    accessToken: string,
-    refreshToken: string
-  ) {
+  async updateToken(MemberId: number, refreshToken: string) {
     try {
       const [result] = await this.db
         .update(members)
-        .set({ accessToken, refreshToken })
+        .set({ refreshToken })
         .where(eq(members.id, MemberId));
       if (result.affectedRows > 0) {
         return;

@@ -4,6 +4,7 @@ import { validateBookDataMiddleware } from "./middlewares/bookMiddlewares";
 import { IBook } from "./models/book.model";
 
 const bookRoutes = express();
+
 // Route to get all books
 bookRoutes.get("/books", async (req: Request, res: Response) => {
   const limit = Number(req.query.limit) || 10;
@@ -24,8 +25,8 @@ bookRoutes.get("/books", async (req: Request, res: Response) => {
 });
 
 // Route to get a book by ID
-bookRoutes.get("/book", async (req: Request, res: Response) => {
-  const bookId = Number(req.query.id);
+bookRoutes.get("/:id", async (req: Request, res: Response) => {
+  const bookId = Number(req.params.id);
 
   if (isNaN(bookId) || bookId <= 0) {
     return res.status(400).json({ error: "Invalid book ID" });
@@ -46,7 +47,7 @@ bookRoutes.get("/book", async (req: Request, res: Response) => {
 
 // Route to create a new book
 bookRoutes.post(
-  "/book",
+  "/",
   validateBookDataMiddleware,
   async (req: Request, res: Response) => {
     if (!req.body) {
@@ -67,10 +68,10 @@ bookRoutes.post(
 
 // Route to update a book
 bookRoutes.patch(
-  "/book",
+  "/:id",
   validateBookDataMiddleware,
   async (req: Request, res: Response) => {
-    const bookId = Number(req.query.id);
+    const bookId = Number(req.params.id);
 
     if (isNaN(bookId) || bookId <= 0) {
       return res.status(400).json({ error: "Invalid book ID" });
@@ -92,8 +93,8 @@ bookRoutes.patch(
 );
 
 // Route to delete a book
-bookRoutes.delete("/book", async (req: Request, res: Response) => {
-  const bookId = Number(req.query.id);
+bookRoutes.delete("/:id", async (req: Request, res: Response) => {
+  const bookId = Number(req.params.id);
 
   if (isNaN(bookId) || bookId <= 0) {
     return res.status(400).json({ error: "Invalid book ID" });

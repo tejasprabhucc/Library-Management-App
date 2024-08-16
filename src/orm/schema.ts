@@ -10,7 +10,7 @@ import {
 // Books Table
 export const books = mysqlTable("books", {
   id: serial("id"),
-  title: varchar("title", { length: 35 }).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
   author: varchar("author", { length: 35 }).notNull(),
   publisher: varchar("publisher", { length: 35 }).notNull(),
   genre: varchar("genre", { length: 35 }).notNull(),
@@ -30,7 +30,6 @@ export const members = mysqlTable("members", {
   address: varchar("address", { length: 35 }).notNull(),
   password: varchar("password", { length: 255 }).unique().notNull(),
   role: mysqlEnum("role", ["user", "admin"]).notNull().default("user"),
-  accessToken: varchar("accessToken", { length: 255 }).unique(),
   refreshToken: varchar("refreshToken", { length: 255 }).unique(),
 });
 

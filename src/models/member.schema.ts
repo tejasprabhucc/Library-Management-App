@@ -23,7 +23,6 @@ export const MemberBaseSchema = z.object({
     .string({ message: "Password must be a string." })
     .min(8, { message: "Password must be at least 8 characters long." }),
   role: z.enum(["user", "admin"]).optional(),
-  accessToken: z.string().optional(),
   refreshToken: z.string().optional(),
 });
 

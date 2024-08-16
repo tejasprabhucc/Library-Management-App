@@ -6,7 +6,6 @@ export interface IMemberBase {
   address: string;
   password: string;
   role: "user" | "admin";
-  accessToken?: string;
   refreshToken?: string;
 }
 export interface IMember extends IMemberBase {

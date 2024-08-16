@@ -10,22 +10,22 @@ export const hashPassword = async (password: string) => {
 
 // Comparing passwords
 export const comparePassword = async (
-  password: string,
-  hashedPassword: string
+  hashedPassword: string,
+  password: string
 ) => {
-  return await bcrypt.compare(password, hashedPassword);
+  return await bcrypt.compare(hashedPassword, password);
 };
 
 // Generating Access Tokens
-export const generateAccessToken = (userId: number) => {
-  return jwt.sign({ userId }, AppEnvs.ACCESS_TOKEN_SECRET, {
+export const generateAccessToken = (userId: number, role: string) => {
+  return jwt.sign({ userId, role }, AppEnvs.ACCESS_TOKEN_SECRET, {
     expiresIn: "15m",
   });
 };
 
 // Generating Refresh Tokens
-export const generateRefreshToken = (userId: number) => {
-  return jwt.sign({ userId }, AppEnvs.REFRESH_TOKEN_SECRET, {
+export const generateRefreshToken = (userId: number, role: string) => {
+  return jwt.sign({ userId, role }, AppEnvs.REFRESH_TOKEN_SECRET, {
     expiresIn: "5d",
   });
 };
